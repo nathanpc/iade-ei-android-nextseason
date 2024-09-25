@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -11,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import pt.iade.ei.nextseason.ui.components.RatedContentListItem
 import pt.iade.ei.nextseason.ui.theme.NextSeasonTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,29 +21,42 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             NextSeasonTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                RatedContentListItem(
+                    title = "Everybody Hates Chris",
+                    description = "Everybody in Broklyn for some reason hates Chris.",
+                    rating = 4.6f,
+                    numReviews = 130234
+                )
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello IADE $name!",
-        modifier = modifier
-    )
-}
-
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun MainViewPreview() {
     NextSeasonTheme {
-        Greeting("Android")
+        Column {
+            RatedContentListItem(
+                title = "Everybody Hates Chris",
+                description = "Everybody in Broklyn for some reason hates Chris.",
+                rating = 4.6f,
+                numReviews = 130234
+            )
+
+            RatedContentListItem(
+                title = "Everybody Hates Chris",
+                description = "Everybody in Broklyn for some reason hates Chris.",
+                rating = 4.6f,
+                numReviews = 130234
+            )
+
+            RatedContentListItem(
+                title = "Everybody Hates Chris",
+                description = "Everybody in Broklyn for some reason hates Chris.",
+                rating = 4.6f,
+                numReviews = 130234
+            )
+        }
     }
 }
