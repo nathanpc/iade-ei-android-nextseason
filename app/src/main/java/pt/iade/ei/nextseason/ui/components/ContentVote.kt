@@ -2,68 +2,43 @@ package pt.iade.ei.nextseason.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import pt.iade.ei.nextseason.R
 import pt.iade.ei.nextseason.models.ContentItem
 import pt.iade.ei.nextseason.models.Review
 import java.net.URI
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import kotlin.math.roundToInt
 
 @Composable
-fun RatedContentListItem(
+fun ContentVote(
     item: ContentItem
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(10.dp)
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ContentVote(item)
-
         Image(
-            painter = painterResource(R.drawable.poster_placeholder),
-            contentDescription = "Poster Image",
-            modifier = Modifier
-                .height(80.dp)
-                .padding(start = 10.dp)
+            painter = painterResource(R.drawable.keyboard_arrow_up),
+            contentDescription = "Up vote"
         )
-
-        Column(
-            modifier = Modifier.padding(
-                start = 10.dp
-            )
-        ) {
-            Text(
-                text = item.title,
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
-            )
-            Text(
-                text = item.description
-            )
-
-            ReviewStars(item)
-        }
+        Text(
+            text = item.votes.toString()
+        )
+        Image(
+            painter = painterResource(R.drawable.keyboard_arrow_down),
+            contentDescription = "Down vote"
+        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun RatedContentListItemPreview() {
-    RatedContentListItem(
+fun ContentVotePreview() {
+    ContentVote(
         item = ContentItem(
             id = 123,
             title = "Everybody Hates Chris",

@@ -1,69 +1,54 @@
 package pt.iade.ei.nextseason.ui.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import pt.iade.ei.nextseason.R
 import pt.iade.ei.nextseason.models.ContentItem
 import pt.iade.ei.nextseason.models.Review
 import java.net.URI
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-import kotlin.math.roundToInt
 
 @Composable
-fun RatedContentListItem(
+fun ReviewStars(
     item: ContentItem
 ) {
     Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(10.dp)
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        ContentVote(item)
-
-        Image(
-            painter = painterResource(R.drawable.poster_placeholder),
-            contentDescription = "Poster Image",
-            modifier = Modifier
-                .height(80.dp)
-                .padding(start = 10.dp)
-        )
-
-        Column(
-            modifier = Modifier.padding(
-                start = 10.dp
+        for (i in 1..5) {
+            Image(
+                painter = painterResource(
+                    if (i <= item.reviewsAverage().toInt())
+                        R.drawable.star_filled
+                    else
+                        R.drawable.star
+                ),
+                contentDescription = "${item.reviewsAverage()} stars"
             )
-        ) {
-            Text(
-                text = item.title,
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
-            )
-            Text(
-                text = item.description
-            )
-
-            ReviewStars(item)
         }
+
+        Text(
+            text = "${item.reviews.size} reviews",
+            modifier = Modifier.padding(
+                start = 15.dp
+            )
+        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun RatedContentListItemPreview() {
-    RatedContentListItem(
+fun ReviewStarsPreview() {
+    ReviewStars(
         item = ContentItem(
             id = 123,
             title = "Everybody Hates Chris",
