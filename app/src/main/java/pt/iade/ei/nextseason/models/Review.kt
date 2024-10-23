@@ -1,5 +1,6 @@
 package pt.iade.ei.nextseason.models
 
+import java.io.Serializable
 import java.time.LocalDateTime
 
 data class Review(
@@ -8,4 +9,4 @@ data class Review(
     val comment: String,
     val rating: Int,
     val publishedDate: LocalDateTime
-)
+): Serializable

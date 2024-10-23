@@ -1,5 +1,6 @@
 package pt.iade.ei.nextseason.models
 
+import java.io.Serializable
 import java.net.URI
 import java.time.LocalDateTime
 
@@ -13,7 +14,7 @@ data class ContentItem(
     val releaseDate: LocalDateTime,
     val duration: Int,
     val reviews: List<Review>
-) {
+): Serializable {
     fun reviewsAverage(): Float {
         var sum = 0
         for (review in reviews) {

@@ -1,20 +1,29 @@
 package pt.iade.ei.nextseason.ui.components
 
+import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role.Companion.Button
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import pt.iade.ei.nextseason.DetailActivity
 import pt.iade.ei.nextseason.R
 import pt.iade.ei.nextseason.models.ContentItem
 import pt.iade.ei.nextseason.models.Review
@@ -27,40 +36,59 @@ import kotlin.math.roundToInt
 fun RatedContentListItem(
     item: ContentItem
 ) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(10.dp)
+    val context = LocalContext.current
+    Card(
+        modifier = Modifier.padding(
+            vertical = 10.dp,
+            horizontal = 5.dp
+        ),
+        onClick = {
+            Toast.makeText(context, "Hello ${item.title}!", Toast.LENGTH_SHORT).show()
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra("item", item)
+            context.startActivity(intent)
+        }
     ) {
-        ContentVote(item)
-
-        Image(
-            painter = painterResource(R.drawable.poster_placeholder),
-            contentDescription = "Poster Image",
-            modifier = Modifier
-                .height(80.dp)
-                .padding(start = 10.dp)
-        )
-
-        Column(
-            modifier = Modifier.padding(
-                start = 10.dp
-            )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(10.dp)
         ) {
-            Text(
-                text = item.title,
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
-            )
-            Text(
-                text = item.description
+            ContentVote(item)
+
+            Image(
+                painter = painterResource(R.drawable.poster_placeholder),
+                contentDescription = "Poster Image",
+                modifier = Modifier
+                    .height(80.dp)
+                    .padding(start = 10.dp)
             )
 
-            ReviewStars(item)
+            Column(
+                modifier = Modifier.padding(
+                    start = 10.dp
+                )
+            ) {
+                Text(
+                    text = item.title,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = item.description,
+                    maxLines = 2,
+                    minLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                ReviewStars(item)
+            }
         }
     }
 }
 
-@Preview(showBackground = true)
+@Preview()
 @Composable
 fun RatedContentListItemPreview() {
     RatedContentListItem(
