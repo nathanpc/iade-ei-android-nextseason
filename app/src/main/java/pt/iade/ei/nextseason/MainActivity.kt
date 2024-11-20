@@ -16,9 +16,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import pt.iade.ei.nextseason.controllers.ContentItemController
 import pt.iade.ei.nextseason.models.ContentItem
 import pt.iade.ei.nextseason.models.Review
 import pt.iade.ei.nextseason.ui.components.RatedContentListItem
@@ -40,6 +46,9 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainView() {
+    val contentItemController = ContentItemController()
+    var contentList by remember { mutableStateOf<List<ContentItem>?>(null) }
+
     NextSeasonTheme {
         Scaffold(
             topBar = {
@@ -62,11 +71,22 @@ fun MainView() {
                     fontSize = 27.sp
                 )
                 // Muito importante! So facam listas assim:
-                LazyColumn {
-                    items(ContentItemListExample()) { item ->
-                        RatedContentListItem(
-                            item = item
-                        )
+                contentItemController.List(
+                    onSuccess = { contentListFromServer ->
+                        contentList = contentListFromServer
+                    },
+                    onFailure = {
+                        // TODO: Mostrar toast a dizer que tivemos problemas.
+                    }
+                )
+
+                if (contentList != null) {
+                    LazyColumn {
+                        items(contentList!!) { item ->
+                            RatedContentListItem(
+                                item = item
+                            )
+                        }
                     }
                 }
             }

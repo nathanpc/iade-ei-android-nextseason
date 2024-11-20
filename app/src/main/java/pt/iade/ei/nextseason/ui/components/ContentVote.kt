@@ -2,11 +2,21 @@ package pt.iade.ei.nextseason.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import pt.iade.ei.nextseason.R
 import pt.iade.ei.nextseason.models.ContentItem
 import pt.iade.ei.nextseason.models.Review
@@ -18,20 +28,45 @@ import java.time.ZoneOffset
 fun ContentVote(
     item: ContentItem
 ) {
+    // var votes = item.votes
+    var votes by remember { mutableIntStateOf(item.votes) }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(
-            painter = painterResource(R.drawable.keyboard_arrow_up),
-            contentDescription = "Up vote"
-        )
+        // Up vote.
+        Surface(
+            onClick = {
+                item.votes++
+                votes++
+                // ItemController.Update()
+            },
+            color = Color.Transparent
+        ) {
+            Image(
+                painter = painterResource(R.drawable.keyboard_arrow_up),
+                contentDescription = "Up vote"
+            )
+        }
+
+        // Votes label.
         Text(
-            text = item.votes.toString()
+            text = votes.toString()
         )
-        Image(
-            painter = painterResource(R.drawable.keyboard_arrow_down),
-            contentDescription = "Down vote"
-        )
+
+        // Down vote.
+        Surface(
+            onClick = {
+                item.votes--
+                votes--
+                // ItemController.Update()
+            },
+            color = Color.Transparent
+        ) {
+            Image(
+                painter = painterResource(R.drawable.keyboard_arrow_down),
+                contentDescription = "Down vote"
+            )
+        }
     }
 }
 

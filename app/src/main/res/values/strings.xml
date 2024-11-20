@@ -3,4 +3,5 @@
     <string name="share">Share</string>
     <string name="title_activity_main2">MainActivity2</string>
     <string name="title_activity_detail">DetailActivity</string>
+    <string name="server_path">http://10.0.2.2:8080</string>
 </resources>
